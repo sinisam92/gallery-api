@@ -11,11 +11,11 @@ class Comment extends Model
         'gallery_id',
         'user_id'
     ];
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function galleries()
+    public function gallery()
     {
         return $this->belongsTo(Gallery::class);
     }

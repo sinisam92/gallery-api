@@ -19,8 +19,8 @@ Route::middleware('auth:api')->group(function(){
         return $request->user();
 	});
 
-	Route::resource('galleries', GalleriesController::class)->except(['create', 'edit']);
 });
+Route::resource('galleries', 'GalleriesController')->except(['create']);
 
 Route::group([
 	'prefix' => 'auth',

@@ -3,28 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Gallery;
+use App\Image;
+use App\Http\Requests\GalleryRequest;
 use Illuminate\Http\Request;
 
 class GalleriesController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Gallery::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Gallery::getGalleries($request);
     }
 
     /**
@@ -33,9 +29,9 @@ class GalleriesController extends Controller
      * @param  \Illuminate\Http\Request  $requesttitle
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GalleryRequest $request)
     {
-        return Gallery::create($request->only(['title', 'description', 'user_id']));
+        $gallery =  Gallery::storeGallery($request);
     }
 
     /**
@@ -44,9 +40,9 @@ class GalleriesController extends Controller
      * @param  \App\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function show(Gallery $gallery)
+    public function show($id)
     {
-        return $gallery;
+        return Gallery::getSingleGallery($id);
     }
 
     /**

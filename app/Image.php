@@ -11,7 +11,7 @@ class Image extends Model
         'gallery_id',
         'user_id'
     ];
-    public function galleries()
+    public function gallery()
     {
         return $this->belongsTo(Gallery::class);
     }
