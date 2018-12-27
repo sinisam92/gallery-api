@@ -65,8 +65,8 @@ class Gallery extends Model
         $user = auth()->user()->id;
 
         $gallery = new Gallery();
-        $gallery->title = $request->input('title');
-        $gallery->description = $request->input('description');
+        $gallery->title = $request->title;
+        $gallery->description = $request->description;
         $gallery->user_id = $user;
 
         $gallery->save();
