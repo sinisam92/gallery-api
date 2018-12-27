@@ -26,7 +26,7 @@ class GalleriesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $requesttitle
+     * @param  \Illuminate\Http\Request  $request title
      * @return \Illuminate\Http\Response
      */
     public function store(GalleryRequest $request)

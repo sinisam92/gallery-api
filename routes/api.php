@@ -12,8 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-// Route::resource('comments', 'CommentsController');
+
 Route::post('galleries/{id}/comments', 'CommentsController@store');
+Route::delete('comments/{id}', 'CommentsController@destroy');
 Route::resource('galleries', 'GalleriesController')->except(['create']);
 
 // Route::middleware('auth:api')->group(function(){

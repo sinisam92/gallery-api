@@ -30,7 +30,9 @@ class Comment extends Model
         $comment->user_id = $user;
         $comment->save();
 
-        return Comment::with('user')->where('id', $comment->id)->get();
+        // return Comment::with('user')->where('id', $comment->id)->get();
+
+         //return $comment;
         
        
     }
