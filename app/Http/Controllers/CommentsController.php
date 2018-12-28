@@ -8,17 +8,22 @@ use Illuminate\Http\Request;
 
 class CommentsController extends Controller
 {
-    public function store(CommentRequest $request, $gallery_id)
+    public function __construct() {
+        $this->middleware('auth:api');
+    }
+    public function store(CommentRequest $request, $galleryId)
     {
-        return Comment::addComment($request, $gallery_id);
+        return Comment::addComment($request, $galleryId);
     }
 
 
     public function destroy($id)
     {
         $comment = Comment::find($id);
-
         $comment->delete();
-        return $comment;
+
+        return response()->json([
+            'message' => 'Deleted'
+        ]);
     }
 }

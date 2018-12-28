@@ -37,13 +37,13 @@ class Gallery extends Model
         }
 
         if($term) {
-            $query->whereHas('user', function($query) use ($term){
-                $query->where('title', 'like', '%' . $term . '%')
-                        ->orWhere('description', 'like', '%' . $term . '%')
-                        ->orWhere('first_name', 'like', '%' . $term . '%')
+            $query->where('title', 'like', '%' . $term . '%')
+                    ->orWhere('description', 'like', '%' . $term . '%')
+                    ->orWhereHas('user', function($q) use ($term){  
+                        $q->where('first_name', 'like', '%' . $term . '%')
                         ->orWhere('last_name', 'like', '%' . $term . '%');
+        });
 
-            });
         }
         $count = $query->count();
 

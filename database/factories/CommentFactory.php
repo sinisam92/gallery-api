@@ -15,8 +15,12 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Comment::class, function (Faker $faker) {
     return [
-        'body' => $faker->text($maxNbChars = 1000),
-        'gallery_id' => App\Gallery::all()->random()->id,
-        'user_id' => App\User::all()->random()->id
+        'body' => $faker->sentence(),
+        'user_id' => function() {
+            return App\User::all()->random()->id;
+        },
+        'gallery_id' => function() {
+            return App\Gallery::all()->random()->id;
+        }
     ];
 });
