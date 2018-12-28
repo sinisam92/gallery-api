@@ -24,10 +24,10 @@ class GalleryRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=>"required|min:2|max:255",
-            'description'=> "max:1000",
-            "images" => "array|min:1|required",
-            "images.*" => ['regex:/^(http)?s?:?(\/\/[^\']*\.(?:png|jpg|jpeg))/']
+            "title"=>"required|min:2|max:255",
+            "description"=> "max:1000",
+            "images" => "min:1",
+            "images.*.url" => ['regex:/^(http)?s?:?(\/\/[^\']*\.(?:png|jpg|jpeg))/']
         ];
     }
 }

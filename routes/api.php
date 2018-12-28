@@ -16,23 +16,23 @@ use Illuminate\Http\Request;
 Route::post('galleries/{id}/comments', 'CommentsController@store');
 Route::delete('comments/{id}', 'CommentsController@destroy');
 Route::get('author-galleries/{id}', 'AuthorsGalleriesController@index');
-Route::resource('galleries', 'GalleriesController')->except(['create']);
+Route::post('galleries', 'GalleriesController@store');
+Route::get('galleries', 'GalleriesController@index');
+Route::get('galleries/{id}', 'GalleriesController@show');
+Route::put('galleries/{id}', 'GalleriesController@update');
+Route::delete('galleries/{id}', 'GalleriesController@destroy');
+
+// Route::resource('galleries', 'GalleriesController')->except(['create']);
 
 Route::get('authors-galleries/{id}', 'AuthorsGalleriesController@index');
 
-// Route::middleware('auth:api')->group(function(){
-
-//     Route::get('/user', function (Request $request) {
-//         return $request->user();
-// 	});
-
-// });
 Route::group([
 	'prefix' => 'auth',
 	'namespace' => 'Auth'
 ], function() {
 	Route::post('login', 'AuthController@login');
 	Route::post('register', 'AuthController@register');
+	Route::get('logout', 'AuthController@logout');
 });
 
 

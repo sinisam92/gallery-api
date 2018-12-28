@@ -20,6 +20,8 @@ class GalleriesController extends Controller
      */
     public function index(Request $request)
     {
+        $term = $request->input('term');
+
         return Gallery::getGalleries($request);
     }
 
@@ -31,7 +33,22 @@ class GalleriesController extends Controller
      */
     public function store(GalleryRequest $request)
     {
-        $gallery =  Gallery::storeGallery($request);
+        $user = auth()->user()->id;
+
+        $gallery = new Gallery();
+        $gallery->title = $request->title;
+        $gallery->description = $request->description;
+        $gallery->user_id = $user;
+
+        $gallery->save();
+
+        $imags = [];
+        foreach($request->images as $img) {
+            $imags[] = new Image($img);
+        }
+        $gallery->images()->saveMany($imags);
+        
+        return $this->show($gallery->id);
     }
 
     /**
@@ -45,16 +62,6 @@ class GalleriesController extends Controller
         return Gallery::getSingleGallery($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Gallery  $gallery
-     * @return \Illuminate\Http\Response
-     */ 
-    public function edit(Gallery $gallery)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -63,10 +70,24 @@ class GalleriesController extends Controller
      * @param  \App\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gallery $gallery)
+    public function update(Request $request, $id)
     {
-        $gallery->update($request->only(['title', 'description', 'user_id']));
-        return $gallery;
+
+        $user = auth()->user()->id;
+
+        $gallery = Gallery::find($id);
+        $gallery->title = $request->title;
+        $gallery->description = $request->description;
+        $gallery->user_id = $user;
+        $gallery->save();        
+        
+        $gallery->images()->delete();
+        $imags = [];
+        foreach(request('images') as $img) {
+            $imags[] = new Image($img);
+        }
+        $gallery->images()->saveMany($imags);
+        return $this->show($gallery->id);
     }
     /**
      * Remove the specified resource from storage.
@@ -74,9 +95,12 @@ class GalleriesController extends Controller
      * @param  \App\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gallery $gallery)
+    public function destroy($id)
     {
+        $gallery = Gallery::find($id);
         $gallery->delete();
-        return $gallery;
+        return response()->json([
+            'message' => 'Deleted'
+        ]);
     }
 }
